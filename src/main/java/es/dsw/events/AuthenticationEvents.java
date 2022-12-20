@@ -1,6 +1,13 @@
 package es.dsw.events;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
@@ -37,14 +44,13 @@ public class AuthenticationEvents {
 		//Para poder hacer uso del contexto principal del hilo del usuario, es necesario que en el web.xml se incorpore el listener: 
 		//org.springframework.web.context.request.RequestContextListener (Ver web.xml).
 		RequestContextHolder.getRequestAttributes().setAttribute("DataUser", "validado", RequestAttributes.SCOPE_SESSION);
-		UsuariosDao Usuario = new UsuariosDao();
-		ArrayList<Usuario> objListaUsuario = Usuario.getAll();
-		
-		for(int i = 0; i<objListaUsuario.size();i++) {
-			System.out.println(objListaUsuario.get(i).getIduser_usf());
-			
-		}
 	
+		/*String timestamp = ZonedDateTime.now(ZoneId.of("Europe/Lisbon"))
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyy, hh.mm.ss a"));
+		
+		Cookie newCookie = new Cookie("ultimoAcceso", timestamp);
+		newCookie.setMaxAge(24*60*60);
+		response.addCookie(newCookie);*/
     }
 
     @EventListener

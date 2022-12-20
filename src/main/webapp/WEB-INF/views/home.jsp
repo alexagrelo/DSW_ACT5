@@ -117,18 +117,16 @@
     <!-- Capa seccion01 donde se cargarán las secciones-->
     <div id="seccion01">
       <h2 class="display-4 text-white"><b>Mi Perfil</b></h2>
-      <p class="lead text-white mb-0"><b>Nombre:</b> ${Nombre} </p>
-      <p class="lead text-white mb-0"><b>Apellidos:</b> [apellidos]</p>
-      <p class="lead text-white mb-0"><b>Nombre de usuario:</b> [username]</p>
-      <p class="lead text-white mb-0"><b>Roles:</b> [roles de usuario]</p>
+      <p class="lead text-white mb-0"><b>Nombre:</b> ${User.getName_usf()} </p>
+      <p class="lead text-white mb-0"><b>Apellidos:</b> ${User.getFirstsurname_usf()}</p>
+      <p class="lead text-white mb-0"><b>Nombre de usuario:</b> ${User.getUsername_usf()}</p>
+      <p class="lead text-white mb-0"><b>Roles:</b> ${User.getRol()}</p>
       <br/>
        <p class="lead text-white"><a href="javascript:document.getElementById('logout').submit()" class="text-white">
-            <u>Salir</u></a>
+            Salir</a>
       </p>      
       <!-- <div class="separator"></div> -->
-    </div>
-    
-  
+    </div>  
   </div>
   <!-- End demo content -->
 

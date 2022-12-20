@@ -31,7 +31,7 @@ public class SecurityAppConfig {
     	//se recuerda al desarrollador, que esta forma de crear usuarios no garantiza el cifrado de contraseñas. 
     	//Aquí se podría iterar cargando los usuarios que se obtengan desde base de datos.
 		
-		@SuppressWarnings("deprecation")
+		/*@SuppressWarnings("deprecation")
 		UserDetails user1 = User.withDefaultPasswordEncoder()
 		    .username("pepito") //Nombre de usuario
             .password("1234")   //Password
@@ -43,49 +43,36 @@ public class SecurityAppConfig {
 		    .username("pepita")
             .password("5678")
             .roles("usuario")
-            .build();
-		
-		/*ArrayList<Usuario> users = new ArrayList<Usuario>();
-		
+            .build();*/
+				
 		UsuariosDao Usuario = new UsuariosDao();
-		ArrayList<Usuario> objListaUsuario = Usuario.getAll();
-		
-		Iterator<Usuario> iter = objListaUsuario.iterator();
-		
-		while(iter.hasNext()) {
-			
-			Usuario objUsuario = new Usuario();
-			
-			objUsuario.setUsername_usf(iter.next().getUsername_usf());
-			objUsuario.setRol(iter.next().getRol());
-			objUsuario.setPassword_usf(iter.next().getPassword_usf());
-			
-			users.add(objUsuario);
-		}*/
-		
+		ArrayList<Usuario> objListaUsuario = Usuario.getAll();	
 		
 
 		
         //Se crea un objeto InMemoryUserDetailsManager que nos permitirá cargar los usuarios en memoria de aplicación.
         InMemoryUserDetailsManager InMemory = new InMemoryUserDetailsManager();//new InMemoryUserDetailsManager(user);
+        
 
-		/*for(int i = 0; i < users.size(); i++) {
-			
+		for(Usuario usuario : objListaUsuario) {
 			@SuppressWarnings("deprecation")
 			UserDetails user = User.withDefaultPasswordEncoder()
-			.username(users.get(i).getUsername_usf())
-			.password(users.get(i).getPassword_usf())
-			.roles(users.get(i).getRol().toString())
+			.username(usuario.getUsername_usf())
+			.password(usuario.getPassword_usf())
+			.roles(usuario.getRol().toString())
 			.build();
-			
-			
+
+
 			InMemory.createUser(user);
-		}*/
+		}
+		
+        
+       
 		
 
 		//Se cargan los usuarios.
-       InMemory.createUser(user1);
-        InMemory.createUser(user2);
+       /*InMemory.createUser(user1);
+        InMemory.createUser(user2);*/
        
         //Se devuelve a el modulo de Spring Security el descriptor del objeto InMemoryUserDetailsManager para que surta efecto las modificaciones.
         return InMemory;

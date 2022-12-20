@@ -45,9 +45,15 @@ public class MainController {
 		
 		
 		UsuariosDao objUsuario = new UsuariosDao();
-		ArrayList<Usuario> objListaUsuario = objUsuario.getAll();
+		//ArrayList<Usuario> objListaUsuario = objUsuario.getAll();
+		Usuario user = objUsuario.getUserbyUsername(authentication.getName());
 		
-		objModel.addAttribute("Usuarios", objListaUsuario);
+		//objModel.addAttribute("Usuarios", objListaUsuario);
+		objModel.addAttribute("User", user);
+		
+		if(user == null) {
+			System.out.println("No hay na");
+		}
 		
 		
 		/*String timestamp = ZonedDateTime.now(ZoneId.of("Europe/Lisbon"))
