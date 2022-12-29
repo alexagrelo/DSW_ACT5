@@ -1,6 +1,7 @@
 package es.dsw.configs;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.springframework.context.ApplicationEventPublisher;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,6 +50,9 @@ public class SecurityAppConfig {
 		UsuariosDao Usuario = new UsuariosDao();
 		ArrayList<Usuario> objListaUsuario = Usuario.getAll();	
 		
+		
+		
+		
 
 		
         //Se crea un objeto InMemoryUserDetailsManager que nos permitirá cargar los usuarios en memoria de aplicación.
@@ -55,11 +60,17 @@ public class SecurityAppConfig {
         
 
 		for(Usuario usuario : objListaUsuario) {
+			StringBuilder roles = new StringBuilder("");
+			for(String eachstring: usuario.getRol()) {
+				roles.append(eachstring).append(",");
+			}
+			
+									
 			@SuppressWarnings("deprecation")
 			UserDetails user = User.withDefaultPasswordEncoder()
 			.username(usuario.getUsername_usf())
 			.password(usuario.getPassword_usf())
-			.roles(usuario.getRol().toString())
+			.roles(roles.toString().split(","))
 			.build();
 
 

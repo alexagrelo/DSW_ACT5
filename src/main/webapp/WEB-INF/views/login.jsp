@@ -35,6 +35,7 @@
                  <c:if test="${param.error != null}"><div><p class="error">Usuario o contraseña no válidos</p></div></c:if>
 				 <c:if test="${param.logout != null}"><div><p class="logout">Sesión de usuario cerrada</p></div></c:if>
               </form:form>
+              <div><p>${DateTime}</p></div>
            </div>
         </div>
      </div>

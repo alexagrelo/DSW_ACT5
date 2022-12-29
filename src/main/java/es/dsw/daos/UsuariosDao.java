@@ -57,7 +57,7 @@ public class UsuariosDao {
 						Iterator<Rol> iter = objTablaRol.iterator();
 						
 						while(iter.hasNext()) {
-							Roles.add(iter.next().getRolname_rf());						
+							Roles.add(iter.next().getRolcode_rf());						
 						}
 					}	
 					objUsuario.setRol(Roles);
@@ -78,30 +78,20 @@ public class UsuariosDao {
 	
 	
 	public Usuario getUserbyUsername(String username) {
-		System.out.println(11);
-		System.out.println("usuario " + username);
 		MySqlConnection objConection = new MySqlConnection();
 		Usuario objUsuario = null;
 		
 		
 		try {
 			objConection.open();
-			System.out.println(12);
 			if(!objConection.isError()) {
 				String sql = "SELECT * FROM user_film WHERE USERNAME_USF = " + "'" + username + "'";
-				System.out.println(sql);
 				ResultSet Result = objConection.executeSelect(sql);
-				System.out.println(13);
-				if(Result == null) {
-					System.out.println("No hay Result");
-				}else {
-					System.out.println("Sí hay Result");
-				}
+				
 				while (Result.next()) {
 					
-					System.out.println(14);
 					objUsuario = new Usuario();
-					System.out.println(15);
+					
 					objUsuario.setIduser_usf(Result.getInt("IDUSER_USF"));
 					objUsuario.setUsername_usf(Result.getString("USERNAME_USF"));
 					objUsuario.setPassword_usf(Result.getString("PASSWORD_USF"));
@@ -125,7 +115,7 @@ public class UsuariosDao {
 						Iterator<Rol> iter = objTablaRol.iterator();
 						
 						while(iter.hasNext()) {
-							Roles.add(iter.next().getRolname_rf());						
+							Roles.add(iter.next().getRolcode_rf());						
 						}
 					}	
 					objUsuario.setRol(Roles);
@@ -140,7 +130,6 @@ public class UsuariosDao {
 		}finally {
 			objConection.close();
 		}
-		System.out.println(16);
 		return objUsuario;
 	}
 	

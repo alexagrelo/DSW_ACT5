@@ -22,8 +22,8 @@
     <div class="py-4 px-3 mb-4 bg-light">
       <div class="media d-flex align-items-center"><img src="./img/usuario.gif" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         <div class="media-body">
-          <h4 class="m-0">[nombre y apellidos]</h4>
-          <p class="font-weight-light text-muted mb-0">[username]</p>
+          <h4 class="m-0">${User.getName_usf()} ${User.getFirstsurname_usf()} ${User.getSecoundsurname_usf()}</h4>
+          <p class="font-weight-light text-muted mb-0">${User.getUsername_usf()}</p>
         </div>
       </div>
     </div>
@@ -94,12 +94,14 @@
              	 </a>
       		</li>
       	</security:authorize>
+      	<security:authorize access="hasRole('admin') || hasRole('commercial') || hasRole('basicuser')">
       <li class="nav-item">
         <a id="IdListarPeliculas" href="#" class="nav-link text-dark font-italic">
                   <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
                   Listar películas
               </a>
       </li>
+      </security:authorize>
     </ul>
 
   
@@ -120,7 +122,7 @@
       <p class="lead text-white mb-0"><b>Nombre:</b> ${User.getName_usf()} </p>
       <p class="lead text-white mb-0"><b>Apellidos:</b> ${User.getFirstsurname_usf()}</p>
       <p class="lead text-white mb-0"><b>Nombre de usuario:</b> ${User.getUsername_usf()}</p>
-      <p class="lead text-white mb-0"><b>Roles:</b> ${User.getRol()}</p>
+      <p class="lead text-white mb-0"><b>Roles:</b> ${Rol}</p>
       <br/>
        <p class="lead text-white"><a href="javascript:document.getElementById('logout').submit()" class="text-white">
             Salir</a>

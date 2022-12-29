@@ -1,9 +1,6 @@
 package es.dsw.events;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import es.dsw.daos.UsuariosDao;
-import es.dsw.models.Usuario;
+import es.dsw.helpers.CookieHelper;
+
+
 
 /* SOBRECARGA E IMPLEMENTACIÓN DE LOS EVENTOS DE LOGIN (Opcional)
  * 
@@ -32,7 +30,7 @@ import es.dsw.models.Usuario;
  * Pruebe a incluir breaks-points y depurar para comprobar como despues del proceso de autenticación se captura el resultado.
  */
 @Component
-public class AuthenticationEvents {
+public class AuthenticationEvents  {
 	
 	@EventListener
     public void onSuccess(AuthenticationSuccessEvent success) {
@@ -45,12 +43,7 @@ public class AuthenticationEvents {
 		//org.springframework.web.context.request.RequestContextListener (Ver web.xml).
 		RequestContextHolder.getRequestAttributes().setAttribute("DataUser", "validado", RequestAttributes.SCOPE_SESSION);
 	
-		/*String timestamp = ZonedDateTime.now(ZoneId.of("Europe/Lisbon"))
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyy, hh.mm.ss a"));
 		
-		Cookie newCookie = new Cookie("ultimoAcceso", timestamp);
-		newCookie.setMaxAge(24*60*60);
-		response.addCookie(newCookie);*/
     }
 
     @EventListener
