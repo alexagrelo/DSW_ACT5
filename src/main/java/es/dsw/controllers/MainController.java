@@ -23,8 +23,10 @@ public class MainController {
 	
 	@GetMapping(value = {"/","/home"})
 	public String home(Model objModel, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+		// Se resetea la variable Roles
 		String Roles ="";
 		
+		//Se comprueba si hay un usuario logueado y se recogen sus roles (hay 4 en la BD)
 		if(authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()){
 			GrantedAuthority auxRol;
 			

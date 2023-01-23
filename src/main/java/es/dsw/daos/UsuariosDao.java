@@ -9,9 +9,11 @@ import es.dsw.models.Usuario;
 import es.dsw.models.UsuarioRol;
 import es.dsw.models.Rol;
 
-
+//DAO correspondiente a la tabla "user_film"
 public class UsuariosDao {
 	
+	// Se añaden al DAO dos atributos -> La bandera de error y el mensaje de error,
+	// que no están en la tabla.
 	private boolean flagError;
 	private String msgError;
 	
@@ -19,7 +21,6 @@ public class UsuariosDao {
 		this.flagError = false;
 		this.msgError = "";
 	}
-	
 	
 	public ArrayList<Usuario> getAll(){
 		
@@ -40,7 +41,7 @@ public class UsuariosDao {
 					objUsuario.setSecoundsurname_usf(Result.getString("SECOUNDSURNAME_USF"));
 					objUsuario.setName_usf(Result.getString("NAME_USF"));
 					
-					//Traer los ids de rol de cada usuario
+					//Se traen los ids de rol de cada usuario de la tabla "userrol_film"
 					UsuarioRolDao objUsuarioRolDao = new UsuarioRolDao();
 					ArrayList<UsuarioRol> objTablaUsuarioRol = objUsuarioRolDao.getById(Result.getInt("IDUSER_USF"));
 					Iterator<UsuarioRol> iterator = objTablaUsuarioRol.iterator();
