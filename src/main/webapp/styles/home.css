@@ -34,6 +34,14 @@
     margin: 0;
   }
   
+  #perfilDiv.hidden {
+  	display: none;
+  }
+  
+  #perfilDiv.shown {
+  	display: block;
+  }
+  
   @media (max-width: 768px) {
     #sidebar {
       margin-left: -17rem;

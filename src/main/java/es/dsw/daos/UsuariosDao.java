@@ -123,7 +123,7 @@ public class UsuariosDao {
 				}
 			}else {
 				this.flagError = true;
-				this.msgError = "Error en getAll. El objeto clsConectionMysql informa error al abrir conexión. +Info: " + objConection.msgError();
+				this.msgError = "Error en getAll. El objeto MySqlConnection informa error al abrir conexión. +Info: " + objConection.msgError();
 			}
 		}catch (Exception ex) {
 			this.flagError = true;

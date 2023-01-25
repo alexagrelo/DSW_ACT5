@@ -1,6 +1,7 @@
 package es.dsw.helpers;
 
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,8 +41,11 @@ public class CookieHelper {
 	
 	
 	public static void saveDateTimeCookie(HttpServletRequest request, HttpServletResponse response) {
-		String timestamp = ZonedDateTime.now(ZoneId.of("Europe/Lisbon")).toString();
-
+		// String timestamp = ZonedDateTime.now(ZoneId.of("Atlantic/Canary")).toString();
+		LocalDateTime date = LocalDateTime.now();
+		String pattern = "dd-MM-yyyy_HH:mm:ss";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+		String timestamp = date.format(formatter);
 		Cookie newCookie = new Cookie("ultimoAcceso", timestamp);
 		newCookie.setMaxAge(24*60*60);
 		response.addCookie(newCookie);

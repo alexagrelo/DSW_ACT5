@@ -1,6 +1,7 @@
 package es.dsw.controllers;
 
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,41 +23,41 @@ import es.dsw.models.Usuario;
 public class MainController {
 	
 	@GetMapping(value = {"/","/home"})
-	public String home(Model objModel, Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+	public String home(Model objModel, Authentication authenticatedUser, HttpServletRequest request, HttpServletResponse response) {
 		// Se resetea la variable Roles
-		String Roles ="";
+		String roles ="";
 		
 		//Se comprueba si hay un usuario logueado y se recogen sus roles (hay 4 en la BD)
-		if(authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()){
-			GrantedAuthority auxRol;
+		if(authenticatedUser.getAuthorities() != null && !authenticatedUser.getAuthorities().isEmpty()){
+			GrantedAuthority rolItem;
 			
-			Collection<? extends GrantedAuthority> objRoles = authentication.getAuthorities();
+			Collection<? extends GrantedAuthority> objRoles = authenticatedUser.getAuthorities();
 			
-			Iterator<? extends GrantedAuthority> iterator = objRoles.iterator();
+			Iterator<? extends GrantedAuthority> rolesIterator = objRoles.iterator();
 			
-			while(iterator.hasNext()) {
-				auxRol = iterator.next();
-				Roles = Roles + auxRol.getAuthority() + ", ";
+			while(rolesIterator.hasNext()) {
+				rolItem = rolesIterator.next();
+				roles += rolItem.getAuthority() + ", ";
 			}
 		}
 		
-		objModel.addAttribute("Nombre", authentication.getName());
-		objModel.addAttribute("Roles", Roles);
+		// Guardamos la info del usuario introducido en en la memoria de la aplicación,
+		// que por tanto tiene @ApplicationScope.
+		objModel.addAttribute("Nombre", authenticatedUser.getName());
+		objModel.addAttribute("Roles", roles);
 		
-		
-		
-		UsuariosDao objUsuario = new UsuariosDao();
-		//ArrayList<Usuario> objListaUsuario = objUsuario.getAll();
-		Usuario user = objUsuario.getUserbyUsername(authentication.getName());
-		ArrayList<String> userRoles = user.getRol();
+		UsuariosDao objUsuarioDao = new UsuariosDao();
+		Usuario usuario = objUsuarioDao.getUserbyUsername(authenticatedUser.getName());
+		ArrayList<String> userRoles = usuario.getRol();
 		String userRol="";
-		
-		for (int i = 0; i < userRoles.size(); i++) {
-			userRol = userRol + userRoles.get(i) + ", ";
+		for (String rol : userRoles) {
+			userRol += (rol + ", ");
 		}
 		
-		//objModel.addAttribute("Usuarios", objListaUsuario);
-		objModel.addAttribute("User", user);
+		userRol += "end";
+		userRol = userRol.replace(", end", "");
+		
+		objModel.addAttribute("User", usuario);
 		objModel.addAttribute("Rol", userRol);
 			
 		CookieHelper.saveDateTimeCookie(request, response);
@@ -66,31 +67,17 @@ public class MainController {
 	}
 	
 	@GetMapping(value = {"/login"})
-	public String login(Model objModel, HttpServletRequest request, HttpServletResponse response) {		
-		
-		
-		
+	public String login(Model objModel, HttpServletRequest request, HttpServletResponse response) {
 		
 		String objCookieData = CookieHelper.getCookieValue("ultimoAcceso", request);
 		if(objCookieData != null) {
 			
-			String Date = objCookieData.substring(0,10);
-			String day = Date.substring(8);
-			String month = Date.substring(5,7);
-			String year = Date.substring(0,4);
-			String formattedDate = day+"/"+month+"/"+year;
-			
-			String Time = objCookieData.substring(11,19).replace("/", ":");
-			
-			
-			String DateTime = "Fecha del último acceso: " + formattedDate + " " + Time;
-			objModel.addAttribute("DateTime",DateTime);
+			String output = objCookieData.replace("_", " ");
+			output = "Fecha del último acceso: " + output;
+			objModel.addAttribute("DateTime",output);
 		}
 		
-		
 		return "login";
-		
-		
 	}
 
 }

@@ -22,6 +22,26 @@ body {
     padding: 0px 10px;
 }
 
+.error {
+	color: #FF0000;
+	font-size: 1rem;
+	font-weight:700;
+	margin-top: 1rem;
+}
+
+.logout {
+	color: #0000FF;
+	font-size: 1rem;
+	font-weight: 500;
+	margin-top: 1rem;
+}
+
+.acceso {
+	margin-top:0.5rem; 
+	color:#000000; 
+	font-weight:600;
+}
+
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
 }
