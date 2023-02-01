@@ -140,8 +140,6 @@ public class Usuario  {
 	}
 
 
-
-
 	public ArrayList<String> getRol() {
 		return Rol;
 	}

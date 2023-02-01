@@ -4,33 +4,37 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import es.dsw.connections.MySqlConnection;
-import es.dsw.models.Genero;
+import es.dsw.models.Distribuidor;
+import es.dsw.models.Pais;
 
-public class GenerosDao {
-
+public class PaisesDao {
+	
+	@SuppressWarnings("unused")
 	private boolean flagError;
+	@SuppressWarnings("unused")
 	private String msgError;
-
-	public GenerosDao() {
+	
+	
+	public PaisesDao() {
 		this.flagError = false;
 		this.msgError = "";
 	}
-
-	public ArrayList<Genero> getAll() {
+	
+	public ArrayList<Pais> getAll() {
 
 		MySqlConnection objConection = new MySqlConnection();
-		ArrayList<Genero> objTablaGenero = new ArrayList<Genero>();
+		ArrayList<Pais> objTablaPais = new ArrayList<Pais>();
 
 		try {
 			objConection.open();
 
 			if (!objConection.isError()) {
-				ResultSet Result = objConection.executeSelect("SELECT * FROM genre_film");
+				ResultSet Result = objConection.executeSelect("SELECT * FROM country_film");
 				while (Result.next()) {
-					Genero objGenero = new Genero();
-					objGenero.setIdgenre_gf(Result.getInt("IDGENRE_GF"));
-					objGenero.setGenre_gf(Result.getString("GENRE_GF"));
-					objTablaGenero.add(objGenero);
+					Pais objPais = new Pais();
+					objPais.setIdcountry_cf(Result.getInt("IDCOUNTRY_CF"));
+					objPais.setCountry_cf(Result.getString("COUNTRY_CF"));
+					objTablaPais.add(objPais);
 				}
 			} else {
 				this.flagError = true;
@@ -43,20 +47,18 @@ public class GenerosDao {
 		} finally {
 			objConection.close();
 		}
-		return objTablaGenero;
+		return objTablaPais;
 	}
 	
-	
-	public String getNombreGeneroByIdGenero(Integer id) {
+	public String getNombrePaisByIdPais(Integer id) {
 		MySqlConnection objConection = new MySqlConnection();
 		try {
 			objConection.open();
 
 			if (!objConection.isError()) {
-				ResultSet Result = objConection.executeSelect("SELECT GENRE_GF FROM genre_film WHERE IDGENRE_GF = " + id);
+				ResultSet Result = objConection.executeSelect("SELECT COUNTRY_CF FROM country_film WHERE IDCOUNTRY_CF = " + id);
 				while (Result.next()) {
-					String genero = Result.getString("GENRE_GF");
-					return genero;
+					return Result.getString("COUNTRY_CF");
 				}
 			} else {
 				this.flagError = true;

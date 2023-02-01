@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>EL RINCÓN DEL CINE - Gestión</title>
 <link href="./styles/home.css" rel="stylesheet" id="bootstrap-css">
 <link href="./bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
@@ -40,9 +42,8 @@
 
 		<ul class="nav flex-column bg-white mb-0">
 			<li class="nav-item"><a href="#" id="btnShowPerfil"
-				class="nav-link text-dark font-italic bg-light"> 
-				<i class="fa fa-th-large mr-3 text-primary fa-fw">
-					</i> Mi Perfil
+				class="nav-link text-dark font-italic bg-light"> <i
+					class="fa fa-th-large mr-3 text-primary fa-fw"> </i> Mi Perfil
 			</a></li>
 			<security:authorize access="hasRole('admin')">
 				<li class="nav-item"><a href="#"
@@ -140,12 +141,13 @@
 				<br />
 				<p class="lead text-white">
 					<a href="javascript:document.getElementById('logout').submit()"
-						class="text-white"> Salir</a>
+						class="text-white"> Cerrar Sesión</a>
 				</p>
 			</div>
 			<!--  
 			<div class="separator"></div>
 			-->
+			<div id="filmsListDiv"></div>
 		</div>
 	</div>
 	<!-- End demo content -->
@@ -167,12 +169,78 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">[Formulario de recogida de datos]</div>
+				<div class="modal-body">
+					<!-- Formulario para nueva película con JSTL -->
+					<form:form action="#" id="nuevaPeliculaForm">
+						<div class="mb-3">
+							<label class="form-label">Titulo</label> <input type="text"
+								class="form-control" id="f_title_rf"
+								placeholder="Introduzca el título de la película" />
+						</div>
+						<div class="mb-3">
+							<label for="f_synopsis_rf" class="form-label">Sinopsis</label>
+							<textarea class="form-control" rows="3" cols="20"
+								id="f_synopsis_rf"
+								placeholder="Introduzca una breve descripción de la película"></textarea>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Género</label> <select
+								id="f_idgenre_rf" class="form-select" aria-label="f_idgenre_rf">
+								<c:forEach begin="0" step="1" items="${generos}" var="item">
+									<option value=${item.getIdgenre_gf()}>
+										${item.getGenre_gf()}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Director</label> <input type="text"
+								class="form-control" id="f_director_rf"
+								placeholder="Introduzca el nombre del director" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Reparto</label> <input type="text"
+								class="form-control" id="f_reparto_rf"
+								placeholder="Introduzca el reparto" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Año</label> <input type="number"
+								class="form-control" id="f_anio_rf" min="1900" max="2030"
+								placeholder="Introduzca el año" value="2022" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Fecha del estreno</label> <input
+								type="date" class="form-control" id="f_datepremiere_rf" />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Distribuidor</label> <select
+								id="f_idproducer_rf" class="form-select"
+								aria-label="f_idproducer_rf">
+								<c:forEach begin="0" step="1" items="${distribuidores}"
+									var="item">
+									<option value=${item.getIdproducer_pf()}>${item.getProducer_pf()}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">País</label> <select
+								id="f_idcountry_rf" class="form-select" aria-label="f_pais">
+								<c:forEach begin="0" step="1" items="${paises}" var="item">
+									<option value=${item.getIdcountry_cf()}>
+										${item.getCountry_cf()}</option>
+								</c:forEach>
+							</select>
+						</div>
+
+					</form:form>
+
+
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Cerrar</button>
+						data-dismiss="modal" id="btnCerrarForm">Cerrar</button>
 					<button id="GuardarPelicula" type="button" class="btn btn-dark">Guardar</button>
 				</div>
+				<div id="resultadoGuardar"></div>
 			</div>
 		</div>
 	</div>
